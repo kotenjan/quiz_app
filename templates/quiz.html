@@ -30,6 +30,7 @@
         }
         .flashcard-container {
             perspective: 1000px; /* Increased perspective for a more pronounced 3D effect */
+            margin-top: 20px;
             margin-bottom: 20px;
         }
         .flashcard {
@@ -199,14 +200,67 @@
                 font-size: 35px;
             }
         }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-bottom: 20px; /* Correct padding */
+        }
+        
+        .action-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .action-button[data-action="incorrect"] {
+            background-color: #966666; /* Dark red for incorrect */
+        }
+        
+        .action-button[data-action="correct"] {
+            background-color: #669668; /* Dark green for correct */
+        }
+        
+        .action-button[data-action="flip"] {
+            background-color: #757575; /* Neutral dark gray for flip */
+        }
+        .action-button[data-action="flip"]:hover {
+            background-color: #9c9c9c; /* Neutral dark gray for flip */
+        }
+        
+        .action-button[data-action="prev"] {
+            background-color: #555555; /* Subtle dark gray for previous */
+        }
+        
+        .action-button[data-action="next"] {
+            background-color: #555555; /* Subtle dark gray for next */
+        }
+        
+        .action-button:hover {
+            background-color: #6b6b6b; /* Uniform hover for all buttons */
+        }
+
+        .action-button[data-action="correct"]:hover {
+            background-color: #79b37b; /* Uniform hover for all buttons */
+        }
+
+        .action-button[data-action="incorrect"]:hover {
+            background-color: #c48585; /* Dark red for incorrect */
+        }
+        
+        .action-button:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Removed the title -->
-        <div class="instructions">
-            Press <strong>A</strong> for Incorrect, <strong>D</strong> for Correct. Use <strong>Left Arrow</strong> and <strong>Right Arrow</strong> to navigate. Click or press <strong>Spacebar</strong> to flip.
-        </div>
         <div class="flashcard-container">
             <div class="flashcard" id="flashcard">
                 <div class="front" id="card-question">
@@ -217,6 +271,13 @@
                 </div>
             </div>
         </div>
+        <div class="action-buttons">
+            <button class="action-button" data-action="prev">Previous (←)</button>
+            <button class="action-button" data-action="incorrect">Incorrect (A)</button>
+            <button class="action-button" data-action="flip">Flip (Space)</button>
+            <button class="action-button" data-action="correct">Correct (D)</button>
+            <button class="action-button" data-action="next">Next (→)</button>
+        </div>        
         <div class="status" id="status">
             Question 0 of 0 | Questions Left: 0
         </div>
@@ -425,6 +486,26 @@
                 modalImage.src = '';
                 modalImage.alt = '';
             }
+
+            const buttons = document.querySelectorAll('.action-button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const action = button.getAttribute('data-action');
+        
+                    if (action === 'incorrect') {
+                        markCard('incorrect');
+                    } else if (action === 'flip') {
+                        flipCard();
+                    } else if (action === 'correct') {
+                        markCard('correct');
+                    } else if (action === 'prev') {
+                        moveCard('prev');
+                    } else if (action === 'next') {
+                        moveCard('next');
+                    }
+                });
+            });
         });
     </script>
 </body>
