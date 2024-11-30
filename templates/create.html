@@ -356,23 +356,24 @@
                 container.style.alignItems = "center";
                 container.style.gap = "10px";
 
-                const directionSelector = document.createElement('select');
-                directionSelector.style.marginTop = "10px";
-                directionSelector.style.padding = "10px";
-                directionSelector.style.fontSize = "14px";
-                directionSelector.style.borderRadius = "5px";
-                directionSelector.style.border = "1px solid #ccc";
-                directionSelector.style.flex = "1";
+                const dragOptionSelector = document.createElement('select');
+                dragOptionSelector.style.marginTop = "10px";
+                dragOptionSelector.style.padding = "10px";
+                dragOptionSelector.style.fontSize = "14px";
+                dragOptionSelector.style.borderRadius = "5px";
+                dragOptionSelector.style.border = "1px solid #ccc";
+                dragOptionSelector.style.flex = "1";
 
-                const verticalOption = document.createElement('option');
-                verticalOption.value = "vertical";
-                verticalOption.textContent = "Vertical";
-                const horizontalOption = document.createElement('option');
-                horizontalOption.value = "horizontal";
-                horizontalOption.textContent = "Horizontal";
-                directionSelector.appendChild(verticalOption);
-                directionSelector.appendChild(horizontalOption);
+                const mergeOption = document.createElement('option');
+                mergeOption.value = "merge";
+                mergeOption.textContent = "Merge image when dragging";
+                const swapOption = document.createElement('option');
+                swapOption.value = "swap";
+                swapOption.textContent = "Swap images when dragging";
+                dragOptionSelector.appendChild(mergeOption);
+                dragOptionSelector.appendChild(swapOption);
 
+<<<<<<< HEAD
                 const mergeFilesBtn = document.createElement('button');
                 mergeFilesBtn.textContent = 'Merge Images';
                 mergeFilesBtn.classList.add('button-full-width', 'button-merge-images');
@@ -414,6 +415,9 @@
 
                 container.appendChild(directionSelector);
                 container.appendChild(mergeFilesBtn);
+=======
+                container.appendChild(dragOptionSelector);
+>>>>>>> f994b06 (create)
                 fileList.appendChild(container);
             }
         }
@@ -426,7 +430,7 @@
             let canvas = document.createElement('canvas');
             let ctx = canvas.getContext('2d');
 
-            if (direction === 'horizontal') {
+            if (direction === 'swap') {
                 // Downscale the taller image to match the height of the shorter one
                 const height = Math.min(img1.height, img2.height);
                 const scale1 = height / img1.height;
@@ -438,7 +442,7 @@
 
                 ctx.drawImage(img1, 0, 0, width1, height);
                 ctx.drawImage(img2, width1, 0, width2, height);
-            } else if (direction === 'vertical') {
+            } else if (direction === 'merge') {
                 // Downscale the wider image to match the width of the narrower one
                 const width = Math.min(img1.width, img2.width);
                 const scale1 = width / img1.width;
